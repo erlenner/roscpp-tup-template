@@ -1,8 +1,6 @@
 #include <iostream>
 #include <ros/ros.h>
 #include "pub_sub_demo/Pos.h"
-#include "external_lib/external_class.h"
-#include "external_lib2/external_class.h"
 
 int main(int argc, char **argv)
 {
