@@ -1,0 +1,11 @@
+*.o
+*.swp
+*.swo
+massif.*
+.tup/
+*.asv
+*~
+*.jpg
+*.png
+build-*/*
+!build-*/tup.config

@@ -1,0 +1,46 @@
+CC = g++
+ROS_PACKAGE_NAME = pub_sub_demo
+ROS_GEN_CPP = $(TUP_CWD)/external/ros_gen_cpp
+TOP = $(TUP_CWD)
+
+CFLAGS += -std=c++11
+CFLAGS += -O2
+CFLAGS += -Wall
+CFLAGS += -ggdb
+
+INCLUDES += -I$(TOP)/src
+INCLUDES += -I$(TOP)/external/include
+INCLUDES += -I$(TOP)/external/lib
+INCLUDES += -I$(TOP)/ros/msg
+INCLUDES += -I$(TOP)/ros/srv
+INCLUDES += -I/opt/ros/kinetic/include
+
+LIBS += -L$(TOP)/external/lib
+LIBS += -L/opt/ros/kinetic/lib
+LIBS += -lroscpp
+LIBS += -lxmlrpcpp
+LIBS += -lcpp_common
+LIBS += -lrosconsole_log4cxx
+LIBS += -lrosconsole_backend_interface
+LIBS += -lrosconsole
+LIBS += -lrostime
+LIBS += -lroscpp_serialization
+LIBS += -lpthread
+
+# The script that generate c++ headers from ROS messages/services needs to know the location of the ROS python libraries, which is supposed to lie in PYTHONPATH.
+export PYTHONPATH
+
+# Compile position independent object code
+!cc = | $(TOP)/<gens> |> ^co CC %f^ $(CC) -fPIC -c %f -o %o $(CFLAGS) $(INCLUDES) |> %B.o
+
+# Link shared library
+!ld = |> ^co LD %o^ $(CC) %f -Wl,--no-undefined -shared -o %o $(LIBS) |> ../lib%d.so $(TOP)/<libs>
+
+# Link executable binary
+!lb = |> ^c LD %o^ $(CC) %f -o %o $(LIBS) |> %d
+
+# Generate ros message/service headers
+!gen = |> ^co MSG %f^ mkdir -p $(ROS_PACKAGE_NAME); $(ROS_GEN_CPP)/gen_cpp.py -e $(ROS_GEN_CPP) -p $(ROS_PACKAGE_NAME) -o $(ROS_PACKAGE_NAME) %f |> $(ROS_PACKAGE_NAME)/%B.h | $(TOP)/<gens>
+
+# Link executable binary with shared libraries from external/lib (make sure there is at least one file called lib<something>.so in external/lib. It can be generated from a subfolder with the !ld rule)
+!lbso = | $(TOP)/external/lib/lib*.so $(TOP)/<libs> |> ^co LD %o^ $(CC) %f -o %o $(LIBS) `for f in ../../external/lib/lib*.so; do basename "$f" .so| sed -r 's/^.{3}//;s/^/-l/' | tr '\n' ' '; done`|> %d
