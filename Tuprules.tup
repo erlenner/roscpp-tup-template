@@ -17,7 +17,8 @@ INCLUDES += -I$(TOP)/ros/srv
 INCLUDES += -I/opt/ros/kinetic/include
 
 LIBS += -L$(TOP)/external/lib
-LIBS += -Wl,-rpath,$(TOP)/external/lib
+LIBS += -Wl,-rpath,'$ORIGIN/$(TOP)/external/lib'
+LIBS += -Wl,-rpath,'$ORIGIN/$(TOP)/../external/lib'
 LIBS += -L/opt/ros/kinetic/lib
 LIBS += -Wl,-rpath,/opt/ros/kinetic/lib
 LIBS += -lroscpp
@@ -33,6 +34,9 @@ LIBS += -lpthread
 
 # Compile position independent object code
 !cc = | $(TOP)/<gens> |> ^co CC %f^ $(CC) -fPIC -c %f -o %o $(CFLAGS) $(INCLUDES) |> %B.o
+
+# Link shared library
+!ld = |> ^co LD %o^ $(CC) %f -Wl,--no-undefined -shared -o %o $(LIBS) |> lib%d.so
 
 # Link executable binary
 !lb = |> ^c LD %o^ $(CC) %f -o %o $(LIBS) |> %d

@@ -4,32 +4,32 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "pos_publisher_node");
+    ros::init(argc, argv, "pos_publisher_node");
 
-  ros::NodeHandle n;
+    ros::NodeHandle n;
 
-  ros::Publisher posPub = n.advertise<pub_sub_demo::Pos>("pos_publisher", 1000);
+    ros::Publisher posPub = n.advertise<pub_sub_demo::Pos>("pos_publisher", 1000);
 
-  ros::Rate loop_rate(10);
+    ros::Rate loop_rate(10);
 
-  int count = 0;
-  while (ros::ok())
-  {
-    pub_sub_demo::Pos pos;
+    int count = 0;
+    while (ros::ok())
+    {
+        pub_sub_demo::Pos pos;
 
-    pos.x = 1;
-    pos.y = 2;
-    pos.z = 3;
+        pos.x = 1;
+        pos.y = 2;
+        pos.z = 3;
 
-    ROS_INFO("Sending: [x:\t%f\ty:\t%f\tz:\t%f]", pos.x, pos.y, pos.z);
+        ROS_INFO("Sending: [x:\t%f\ty:\t%f\tz:\t%f]", pos.x, pos.y, pos.z);
 
-    posPub.publish(pos);
+        posPub.publish(pos);
 
-    ros::spinOnce();
+        ros::spinOnce();
 
-    loop_rate.sleep();
-    ++count;
-  }
+        loop_rate.sleep();
+        ++count;
+    }
 
-  return 0;
+    return 0;
 }
