@@ -1,6 +1,22 @@
-# drone-position-filter
-A filter accomplishing the task of filtering the various input data describing the aerial vehicle's position
+# A template for building ROS nodes in c++ with tup on ubuntu
 
-To compile, run "tup" from the command line.
-Outputs are located in the folder "build-native".
-Run the command "roscore" to run the master that the rosnodes located in build-native/src/ need to register with.
+This template implements the basic publish and subscribe rosnodes, using a custom message located in ros/msg/.
+
+Prerequisites:
+
+Install [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu).
+
+To install tup, run ["./scripts/getTup.sh""](scripts/getTup.sh).
+
+An unofficial, slightly outdated version of tup is also available as a debian package for ubuntu: [https://launchpad.net/~cezary0/+archive/ubuntu/tup](https://launchpad.net/~cezary0/+archive/ubuntu/tup). However this template is meant to be used with the tup version that getTup.sh downloads and builds so use the debian package at your own risk.
+
+Building:
+
+To build, run "tup" from the command line.
+
+Source files are located in separate directories in src/.
+
+Outputs have the same directory path and name as the source directory, starting from build-native/.
+(For example the output binary from the source directory, src/publisher/ have the path build-native/src/publisher/publisher.)
+
+Run the command "roscore" to run the "ROS Master" that the rosnodes need to register with in order to communicate with each other.
