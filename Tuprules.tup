@@ -17,7 +17,9 @@ INCLUDES += -I$(TOP)/ros/srv
 INCLUDES += -I/opt/ros/kinetic/include
 
 LIBS += -L$(TOP)/external/lib
+LIBS += -Wl,-rpath,$(TOP)/external/lib
 LIBS += -L/opt/ros/kinetic/lib
+LIBS += -Wl,-rpath,/opt/ros/kinetic/lib
 LIBS += -lroscpp
 LIBS += -lxmlrpcpp
 LIBS += -lcpp_common
