@@ -12,6 +12,8 @@ An unofficial, slightly outdated version of tup is also available as a debian pa
 ### Building:
 To build, run "tup" from the command line.
 
+To automatically build on file change and see building log messages in current shell, run "tup monitor -f -a --autoparse".
+
 ### Running
 Outputs have the same directory path and name as the source directory, starting from build-native/.
 (For example the output binary from the source directory, src/publisher/ have the path build-native/src/publisher/publisher.)
