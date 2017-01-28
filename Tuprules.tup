@@ -42,7 +42,7 @@ LIBS += -lpthread
 !lb = |> ^c LD %o^ $(CC) %f -o %o $(LIBS) |> %d
 
 # Generate ros message/service headers
-!gen = |> ^co MSG %f^ mkdir -p $(ROS_PACKAGE_NAME); PYTHONPATH=/opt/ros/kinetic/lib/python2.7/dist-packages $(ROS_GEN_CPP)/gen_cpp.py -e $(ROS_GEN_CPP) -p $(ROS_PACKAGE_NAME) -o $(ROS_PACKAGE_NAME) %f |> $(ROS_PACKAGE_NAME)/%B.h | $(TOP)/<gens>
+!gen = |> ^co MSG %f^ PYTHONPATH=/opt/ros/kinetic/lib/python2.7/dist-packages $(ROS_GEN_CPP)/gen_cpp.py -e $(ROS_GEN_CPP) -p $(ROS_PACKAGE_NAME) -o $(ROS_PACKAGE_NAME) %f |> $(ROS_PACKAGE_NAME)/%B.h | $(TOP)/<gens>
 
 # Link executable binary with shared libraries from external/lib (make sure there is at least one file called lib<something>.so in external/lib)
 !lbso = | $(TOP)/external/lib/lib*.so |> ^co LD %o^ $(CC) %f -o %o $(LIBS) `for f in ../../external/lib/lib*.so; do basename "$f" .so| sed -r 's/^.{3}//;s/^/-l/' | tr '\n' ' '; done`|> %d
