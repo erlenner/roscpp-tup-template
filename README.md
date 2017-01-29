@@ -2,6 +2,27 @@
 
 This template implements the basic publish and subscribe rosnodes, using a custom message located in ros/msg/.
 
+### How to create a new ROS node repo.
+
+Create a [blank repo](https://github.com/organizations/AscendNTNU/repositories/new), do not initialize the repo with a README or any other files.
+
+Clone this repo bare to your machine using: `git clone --bare git@github.com:AscendNTNU/roscpp-tup-template.git`
+
+Go into the repo you just cloned: `cd roscpp-tup-template/`
+
+Mirror push to the new repository you just created `git push --mirror git@github.com:AscendNTNU/EMPTY-REPO-NAME.git`
+
+NB! Make shure you are pushing to the correct repo, as this will overwrite any existing data.
+
+Remove the bare clone
+```
+cd ..
+rm -rf roscpp-tup-template.git/
+```
+Delete the example branches from your new repo.
+
+You can now clone this new repo to your machine and start development.
+
 ### Prerequisites:
 Install [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu).
 
