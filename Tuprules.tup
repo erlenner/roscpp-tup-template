@@ -1,5 +1,6 @@
 CC = g++
 ROS_PACKAGE_NAME = pub_sub_demo
+ROS_VERSION = kinetic
 
 TOP = $(TUP_CWD)
 ROS_GEN_CPP = $(TOP)/external/ros_gen_cpp
@@ -14,13 +15,13 @@ INCLUDES += -I$(TOP)/external/include
 INCLUDES += -I$(TOP)/external/lib
 INCLUDES += -I$(TOP)/ros/msg
 INCLUDES += -I$(TOP)/ros/srv
-INCLUDES += -I/opt/ros/kinetic/include
+INCLUDES += -I/opt/ros/$(ROS_VERSION)/include
 
 LIBS += -L$(TOP)/external/lib
 LIBS += -Wl,-rpath,'$ORIGIN/$(TOP)/external/lib'
 LIBS += -Wl,-rpath,'$ORIGIN/$(TOP)/../external/lib'
-LIBS += -L/opt/ros/kinetic/lib
-LIBS += -Wl,-rpath,/opt/ros/kinetic/lib
+LIBS += -L/opt/ros/$(ROS_VERSION)/lib
+LIBS += -Wl,-rpath,/opt/ros/$(ROS_VERSION)/lib
 LIBS += -lroscpp
 LIBS += -lxmlrpcpp
 LIBS += -lcpp_common
@@ -42,7 +43,7 @@ LIBS += -lpthread
 !lb = |> ^c LD %o^ $(CC) %f -o %o $(LIBS) |> %d
 
 # Generate ros message/service headers
-!gen = |> ^co MSG %f^ PYTHONPATH=/opt/ros/kinetic/lib/python2.7/dist-packages $(ROS_GEN_CPP)/gen_cpp.py -e $(ROS_GEN_CPP) -p $(ROS_PACKAGE_NAME) -o $(ROS_PACKAGE_NAME) %f |> $(ROS_PACKAGE_NAME)/%B.h | $(TOP)/<gens>
+!gen = |> ^co MSG %f^ PYTHONPATH=/opt/ros/$(ROS_VERSION)/lib/python2.7/dist-packages $(ROS_GEN_CPP)/gen_cpp.py -e $(ROS_GEN_CPP) -p $(ROS_PACKAGE_NAME) -o $(ROS_PACKAGE_NAME) %f |> $(ROS_PACKAGE_NAME)/%B.h | $(TOP)/<gens>
 
 # Link executable binary with shared libraries from external/lib (make sure there is at least one file called lib<something>.so in external/lib)
 !lbso = | $(TOP)/external/lib/lib*.so |> ^co LD %o^ $(CC) %f -o %o $(LIBS) `for f in ../../external/lib/lib*.so; do basename "$f" .so| sed -r 's/^.{3}//;s/^/-l/' | tr '\n' ' '; done`|> %d
