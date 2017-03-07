@@ -1,0 +1,4 @@
+include_rules
+# These rules are needed to register the package with ROS so that exernal commands like rostopic works.
+: |> ^c INIT PACKAGE^ touch %o |> $(ROSDIR)/__init__.py
+: |> ^c LN PACKAGE^ ln -s ros %o |> $(ROS_PACKAGE_NAME)

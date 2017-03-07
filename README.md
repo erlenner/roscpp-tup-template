@@ -30,3 +30,8 @@ Source files are located in separate directories in [src/](src). Each directory 
 Message and service files are located in [ros/msg/](ros/msg) and [ros/srv/](ros/srv).
 
 Includes, libs and other linkerflags, as well as the ROS version and package name of the project are specified in [Tuprules.tup](Tuprules.tup).
+
+### ROS commands
+In order to run ROS commands that needs to know the path to the built ROS messages and services of your project you first need to run `source scripts/registerRosMsgSrv.sh`. For example the command `rostopic echo /pos_publisher` will fail before you do this.
+
+This is also the reason why we generate pythoncode as well as c++ code for the messages, because commands like rostopic use the python implementation of the messages.

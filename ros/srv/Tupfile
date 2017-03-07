@@ -1,2 +1,7 @@
 include_rules
+# generate cpp code
 : foreach *.srv |> !gen |> | $(ROS_PACKAGE_NAME)/%BResponse.h $(ROS_PACKAGE_NAME)/%BRequest.h
+
+# generate and register python code
+: foreach *.srv |> !srv |>
+: |> !regsrv |>

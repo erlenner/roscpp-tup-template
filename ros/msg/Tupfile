@@ -1,2 +1,7 @@
 include_rules
+# generate cpp code
 : foreach *.msg |> !gen |>
+
+# generate and register python code
+: foreach *.msg |> !msg |>
+: |> !regmsg |>
